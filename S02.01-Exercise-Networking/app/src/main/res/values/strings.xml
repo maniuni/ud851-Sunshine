@@ -140,4 +140,8 @@
     <!--Used by SunshinePreferences-->
     <!-- - - - - - - - - - - - - - -->
     <!--NONE-->
+
+    <string name="hint_location">Write a location for a forecast</string>
+
+    <string name="error_message">Failed to get results, please try again.</string>
 </resources>
