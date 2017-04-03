@@ -152,7 +152,7 @@ public final class SunshineDateUtils {
      * Returns a date string in the format specified, which shows a date, without a year,
      * abbreviated, showing the full weekday.
      *
-     * @param context      Used by DateUtils to formate the date in the current locale
+     * @param context      Used by DateUtils to format the date in the current locale
      * @param timeInMillis Time in milliseconds since the epoch (local time)
      *
      * @return The formatted date string

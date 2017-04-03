@@ -25,6 +25,9 @@ import android.widget.TextView;
 
 import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.utilities.NetworkUtils;
+import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO (5) Create a class that extends AsyncTask to perform network requests
 
-    private class WeatherAsyncTask extends AsyncTask<URL, Void, String> {
+    private class WeatherAsyncTask extends AsyncTask<URL, Void, String[]> {
         @Override
         protected void onPreExecute() {
             mLoadingIndicator.setVisibility(View.VISIBLE);
@@ -89,23 +92,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(URL... urls) {
+        protected String[] doInBackground(URL... urls) {
             URL weatherUrl = urls[0];
-            String result = null;
+            String[] simpleWeatherStrings = null;
             try {
-                result = NetworkUtils.getResponseFromHttpUrl(weatherUrl);
-            } catch (IOException e) {
+                String result = NetworkUtils.getResponseFromHttpUrl(weatherUrl);
+                simpleWeatherStrings = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this, result);
+
+                return simpleWeatherStrings;
+            } catch (Exception e) {
                 e.printStackTrace();
+                return null;
             }
-            return result;
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String[] result) {
             mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (result != null && !result.equals("")) {
+            if (result != null ) {
                 showJsonDataView();
-                mWeatherTextView.setText(result);
+                for (String detail : result) {
+                    mWeatherTextView.append(detail + "\n\n\n");
+                }
             } else {
                 showErrorMessageView();
             }
