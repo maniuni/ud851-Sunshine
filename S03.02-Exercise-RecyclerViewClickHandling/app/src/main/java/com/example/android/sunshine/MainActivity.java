@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     }
 
     @Override
-    public void clickItem(String string) {
-        Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+    public void clickItem(String weatherForDay) {
+        Toast.makeText(this, weatherForDay, Toast.LENGTH_SHORT).show();
     }
 
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {

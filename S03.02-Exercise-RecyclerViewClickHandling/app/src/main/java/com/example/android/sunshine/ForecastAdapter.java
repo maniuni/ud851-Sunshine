@@ -35,7 +35,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     // TODO (1) Add an interface called ForecastAdapterOnClickHandler
     public interface ForecastAdapterOnClickHandler{
-        void clickItem(String string);
+        void clickItem(String weatherForDay);
     }
     // TODO (2) Within that interface, define a void method that access a String as a parameter
 
