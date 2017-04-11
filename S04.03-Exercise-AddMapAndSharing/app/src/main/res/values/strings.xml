@@ -147,4 +147,6 @@
     <!--Used by SunshinePreferences-->
     <!-- - - - - - - - - - - - - - -->
     <!--NONE-->
+    <string name="open_map">Open map</string>
+    <string name="share">Share</string>
 </resources>
