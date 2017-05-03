@@ -17,6 +17,7 @@ package com.example.android.sunshine;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.Preference;
 import android.view.MenuItem;
 
 /**
@@ -30,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
         this.setContentView(R.layout.activity_settings);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         // TODO (2) Create an xml resource directory
         // TODO (3) Add a PreferenceScreen with an EditTextPreference and ListPreference within the newly created xml resource directory
 
@@ -37,8 +40,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Do steps 5 - 11 within SettingsFragment
         // TODO (10) Implement OnSharedPreferenceChangeListener from SettingsFragment
-
-        // TODO (8) Create a method called setPreferenceSummary that accepts a Preference and an Object and sets the summary of the preference
 
         // TODO (5) Override onCreatePreferences and add the preference xml file using addPreferencesFromResource
 
