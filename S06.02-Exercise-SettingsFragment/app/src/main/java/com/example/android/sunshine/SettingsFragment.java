@@ -7,6 +7,7 @@ import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.support.v7.preference.PreferenceScreen;
 
 /**
  *
@@ -17,6 +18,19 @@ implements SharedPreferences.OnSharedPreferenceChangeListener{
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences);
+
+        // TODO (9) Set the preference summary on each preference that isn't a CheckBoxPreference
+        PreferenceScreen preferenceScreen = getPreferenceScreen();
+        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        int count = preferenceScreen.getPreferenceCount();
+
+        for (int i = 0; i < count; i++) {
+            Preference preference = preferenceScreen.getPreference(i);
+            if (! (preference instanceof CheckBoxPreference)) {
+                String value = sharedPreferences.getString(preference.getKey(), "");
+                setPreferenceSummary(preference, value);
+            }
+        }
     }
 
     // TODO (8) Create a method called setPreferenceSummary that accepts a Preference and an Object and
