@@ -1,14 +1,25 @@
 package com.example.android.sunshine.utilities;
 
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.Settings;
+import android.support.v4.app.TaskStackBuilder;
+import android.support.v7.app.NotificationCompat;
+import android.support.v7.preference.PreferenceManager;
 
+import com.example.android.sunshine.DetailActivity;
+import com.example.android.sunshine.MainActivity;
 import com.example.android.sunshine.R;
+import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.data.WeatherContract;
 
 public class NotificationUtils {
@@ -33,6 +44,7 @@ public class NotificationUtils {
     public static final int INDEX_MIN_TEMP = 2;
 
 //  TODO (1) Create a constant int value to identify the notification
+    private static final int NOTIFICATION_ID = 1;
 
     /**
      * Constructs and displays a notification for the newly updated weather for today.
@@ -96,6 +108,32 @@ public class NotificationUtils {
 //          TODO (7) Notify the user with the ID WEATHER_NOTIFICATION_ID
 
 //          TODO (8) Save the time at which the notification occurred using SunshinePreferences
+
+            Intent startDetailsIntent = new Intent(context, DetailActivity.class);
+            startDetailsIntent.setData(todaysWeatherUri);
+
+            TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
+
+            taskStackBuilder.addNextIntentWithParentStack(startDetailsIntent);
+
+            PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+
+            builder.setSmallIcon(smallArtResourceId)
+                    .setLargeIcon(largeIcon)
+                    .setContentTitle(notificationTitle)
+                    .setContentText(notificationText)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+
+
+            NotificationManager manager = (NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            manager.notify(NOTIFICATION_ID, builder.build());
+
+            SunshinePreferences.saveLastNotificationTime(context, System.currentTimeMillis());
         }
 
         /* Always close your cursor when you're done with it to avoid wasting resources. */

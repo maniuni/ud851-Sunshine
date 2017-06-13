@@ -15,15 +15,22 @@
  */
 package com.example.android.sunshine.sync;
 
+import android.app.NotificationManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.example.android.sunshine.R;
+import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.data.WeatherContract;
 import com.example.android.sunshine.utilities.NetworkUtils;
+import com.example.android.sunshine.utilities.NotificationUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
 public class SunshineSyncTask {
 
@@ -78,6 +85,26 @@ public class SunshineSyncTask {
 //              TODO (14) Check if a day has passed since the last notification
 
 //              TODO (15) If more than a day have passed and notifications are enabled, notify the user
+
+                /* Key for accessing the preference for showing notifications */
+                String displayNotificationsKey = context.getString(R.string.pref_enable_notifications_key);
+
+                boolean shouldDisplayNotificationsByDefault = context
+                        .getResources()
+                        .getBoolean(R.bool.show_notification);
+
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+
+                boolean shouldDisplayNotifications = sp
+                        .getBoolean(displayNotificationsKey, shouldDisplayNotificationsByDefault);
+
+                if(shouldDisplayNotifications) {
+                    if(SunshinePreferences.getEllapsedTimeSinceLastNotification(context) >
+                            TimeUnit.DAYS.toMillis(1)){
+                        NotificationUtils.notifyUserOfNewWeather(context);
+                    }
+                }
+
 
             /* If the code reaches this point, we have successfully performed our sync */
 
