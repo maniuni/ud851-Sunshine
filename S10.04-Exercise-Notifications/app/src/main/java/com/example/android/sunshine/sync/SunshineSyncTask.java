@@ -99,7 +99,7 @@ public class SunshineSyncTask {
                         .getBoolean(displayNotificationsKey, shouldDisplayNotificationsByDefault);
 
                 if(shouldDisplayNotifications) {
-                    if(SunshinePreferences.getEllapsedTimeSinceLastNotification(context) >
+                    if(SunshinePreferences.getEllapsedTimeSinceLastNotification(context) >=
                             TimeUnit.DAYS.toMillis(1)){
                         NotificationUtils.notifyUserOfNewWeather(context);
                     }
